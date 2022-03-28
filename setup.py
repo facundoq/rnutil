@@ -27,7 +27,7 @@ except FileNotFoundError:
     long_description = DESCRIPTION
 
 # Load the package's __version__.py module as a dictionary.
-VERSION = "0.1.0"
+VERSION = "0.1.2"
 
 
 class UploadCommand(Command):
@@ -92,6 +92,7 @@ setup(
     # entry_points={
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
+    
     install_requires= [ 'numpy', 'matplotlib','pathlib','pandas','scikit-image'],
     include_package_data=True,
     license='GNU Affero General Public License v3 or later (AGPLv3+)',
