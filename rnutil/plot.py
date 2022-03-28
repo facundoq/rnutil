@@ -4,7 +4,7 @@ import numpy as np
 
 
 
-def plot_regresion_lineal_univariada(w,b,x,y,title=""):
+def plot_regresion_lineal_univariada(w,b,x,y,x_label,y_label,title=""):
     # genero una ventana de dibujo con una sola zona de dibujo (1,1)
     f,ax_data=plt.subplots(1,1)
     # dibujo el conjunto de datos como pares x,y y color azul
@@ -18,20 +18,21 @@ def plot_regresion_lineal_univariada(w,b,x,y,title=""):
     # agrego una leyenda con la etiqueta del parametro `label`
     ax_data.legend()
     # Establezco las etiquetas de los ejes x e y
-    ax_data.set_xlabel("x (Horas estudiadas)")
-    ax_data.set_ylabel("y (Nota)")
+    ax_data.set_xlabel(x_label)
+    ax_data.set_ylabel(y_label)
 
 
 
-def plot_regresion_lineal(w,b,x,y,title=""):
+def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
     # genero una ventana de dibujo con una sola zona de dibujo (1,1)
     # que permita graficos en 3D
     figure = plt.figure(figsize=(10, 10), dpi=100)
     ax_data = figure.add_subplot(1, 1, 1, projection='3d')
 
     #dibujo el dataset en 3D (x1,x2,y)
-    x1=x[:,0]
-    x2=x[:,1]
+    # x1=x[:,0]
+    # x2=x[:,1]
+    
     ax_data.scatter(x1,x2, y, color="blue")
     figure.suptitle(title)
 
@@ -40,8 +41,8 @@ def plot_regresion_lineal(w,b,x,y,title=""):
     # si no tenes experiencia con calculos en 3D
     detail = 0.05
     # genero coordenadas x,y de a pares, las llamo xx e yy
-    xr = np.arange(x.min(), x.max(), detail)
-    yr = np.arange(y.min(), 10, detail)
+    xr = np.arange(x1.min(), x1.max(), detail)
+    yr = np.arange(x2.min(), x2.max(), detail)
     xx, yy = np.meshgrid(xr, yr)
     # calculo las coordenadas z en base a xx, yy, y el modelo (w,b)
     zz = xx * w[0] + yy * w[1] + b
@@ -49,11 +50,11 @@ def plot_regresion_lineal(w,b,x,y,title=""):
     surf = ax_data.plot_surface(xx, yy, zz, cmap='Reds', alpha=0.5, linewidth=0, antialiased=True)
 
     # Establezco las etiquetas de los ejes
-    ax_data.set_xlabel("x1 (Horas estudiadas)")
-    ax_data.set_ylabel("x2 (Promedio)")
-    ax_data.set_zlabel("y (Nota)")
+    ax_data.set_xlabel(x1_label)#"x1 (Horas estudiadas)")
+    ax_data.set_ylabel(x2_label)#"x2 (Promedio)")
+    ax_data.set_zlabel(y_label)#"y (Nota)")
     # Establezco el titulo del grafico
-    ax_data.set_title("(Horas estudiadas x Promedio) vs Nota")
+    ax_data.set_title(title)#"(Horas estudiadas x Promedio) vs Nota")
 
 
 
@@ -79,8 +80,7 @@ def plot_regresion_logistica2D(modelo, x, y,title="",detail=0.1):
     plt.contourf(xx, yy, Z, alpha=0.3)  # ,  cmap='RdBu')
     plt.colorbar()
     plt.title(titulo)
-
-
+    
     # puntos con las clases
     plt.scatter(x[:, 0], x[:, 1], c=y)
 
