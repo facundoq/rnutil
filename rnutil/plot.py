@@ -107,7 +107,7 @@ def plot_loss(loss_history):
     plt.ylabel("Error")
     
 
-def plot_loss_acc(loss_history,acc_history):
+def plot_loss_accuracy(loss_history,acc_history):
     plt.figure()
     epochs = np.arange(1,len(loss_history)+1)
     plt.plot(epochs,loss_history)
