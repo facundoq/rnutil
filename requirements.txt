@@ -1,0 +1,6 @@
+twine
+numpy
+matplotlib
+pathlib
+pandas
+scikit-image
