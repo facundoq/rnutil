@@ -1,2 +1,2 @@
-# redes-neuronales-uba
-Datos para la optativa Redes Neuronales de las carreras de Especialización y Maestría en Explotación de Datos de la UBA
+# redes-neuronales-util
+Datos y funciones para la materia Redes Neuronales
