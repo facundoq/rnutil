@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
+import matplotlib.patches as patches
 
 
 
@@ -34,6 +35,7 @@ def add_legends(ax_data,mx,my,b,mean_error):
 def mean_error(w,b,x1,x2,y):
     y_pred = w[0]*x1+w[1]*x2+b
     return np.mean( (y_pred-y)**2)
+
 def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
     # genero una ventana de dibujo con una sola zona de dibujo (1,1)
     # que permita graficos en 3D
@@ -65,7 +67,7 @@ def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
     ax_data.set_ylabel(x2_label)#"x2 (Promedio)")
     ax_data.set_zlabel(y_label)#"y (Nota)")
     # Establezco el titulo del grafico
-    ax_data.set_title(title)
+    # ax_data.set_title(title)
     add_legends(ax_data,w[0],w[1],b,mean_error(w,b,x1,x2,y))
 
 
@@ -104,3 +106,11 @@ def plot_loss(loss_history):
     plt.xlabel("Época")
     plt.ylabel("Error")
     
+
+def plot_loss_acc(loss_history,acc_history):
+    plt.figure()
+    epochs = np.arange(1,len(loss_history)+1)
+    plt.plot(epochs,loss_history)
+    plt.plot(epochs,acc_history)
+    plt.xlabel("Época")
+    plt.ylabel("Error/accuracy")
