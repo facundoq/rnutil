@@ -83,3 +83,12 @@ def plot_regresion_logistica2D(modelo, x, y,title="",detail=0.1):
 
     # puntos con las clases
     plt.scatter(x[:, 0], x[:, 1], c=y)
+
+
+def plot_loss(loss_history):
+    plt.figure()
+    epochs = np.arange(1,len(loss_history)+1)
+    plt.plot(epochs,loss_history)
+    plt.xlabel("Época")
+    plt.ylabel("Error")
+    
