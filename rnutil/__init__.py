@@ -6,4 +6,4 @@ from .datasets import load_dataset_numpy,load_dataset_pandas,load_image
 
 from .numpy import equals_vector,verificar_igualdad
 
-from .plot import plot_regresion_lineal,plot_regresion_lineal_univariada,plot_regresion_logistica2D
+from .plot import plot_regresion_lineal,plot_regresion_lineal_univariada,plot_regresion_logistica2D,plot_loss
