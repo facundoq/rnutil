@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
-from .logistic1d import evaluate_model,evaluate_predictions,apply_model
+from .logistic1d import evaluate_model,forward
 import numpy as np
+from .logistic1d import sigmoid
 
 def visualizar_superficie_error(ax_surface,x,y,m,b,error):
     ax_surface.set_xlabel("m")
@@ -37,7 +38,7 @@ def visualizar_leyendas(ax_data,m,b,error):
     ax_data.legend(handles=handles,fontsize=8)
             
 def plot_regresion_logistica1d(x,y,m,b,x_label,y_label,title=""):
-    # Visualizacion
+    # Visualizacion de la función y la superficie de error
     figure=plt.figure(figsize=(10,5),dpi=100)
     ax_data=figure.add_subplot(1,2,1)
     ax_surface=figure.add_subplot(1,2,2,projection='3d')
@@ -54,7 +55,7 @@ def plot_regresion_logistica1d(x,y,m,b,x_label,y_label,title=""):
     x_pad=40
     min_x,max_x=x.min()-x_pad,x.max()+x_pad
     x_plot=np.linspace(min_x,max_x,40)
-    y_plot=apply_model(x_plot,m,b)
+    y_plot=forward(x_plot,m,b)
     ax_data.plot(x_plot,y_plot,'-')
     error=evaluate_model(x,y,m,b)
     # Mostrar leyendas
@@ -62,3 +63,47 @@ def plot_regresion_logistica1d(x,y,m,b,x_label,y_label,title=""):
     visualizar_superficie_error(ax_surface,x,y,m,b,error)
     
     plt.show()
+
+
+def plot_regresion_logistica2D(w,b, x, y,error,x1_label,x2_label,y_label,title="",detail=0.1,padding=10):
+    assert x.shape[1]==2,f"x debe tener solo dos variables de entrada (tiene {x.shape[1]})"
+    # nueva figura
+    figure=plt.figure(figsize=(10,5),dpi=100)
+    ax_data=figure.add_subplot(1,1,1)
+
+    
+    # gráfico con la predicción aprendida
+    x_min, x_max = x[:, 0].min() - padding, x[:, 0].max() + padding
+    y_min, y_max = x[:, 1].min() - padding, x[:, 1].max() + padding
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, detail),
+                         np.arange(y_min, y_max, detail))
+
+    Z = np.c_[xx.ravel(), yy.ravel()]
+    Z = sigmoid(Z.dot(w)+b)
+
+    titulo = f"{title}: regiones de cada clase"
+    Z = Z.reshape(xx.shape)
+    surf1 = ax_data.contourf(xx, yy, Z, alpha=0.9,cmap='coolwarm')  # ,  cmap='RdBu')
+    plt.colorbar(surf1, shrink=0.8, aspect=5,ax=ax_data)
+
+    plt.title(titulo)
+
+    # puntos con las clases
+    ax_data.scatter(x[y==1,0],x[y==1,1],color="red")
+    ax_data.scatter(x[y==0,0],x[y==0,1],color="blue")
+
+    # etiquetas
+    ax_data.set_xlabel(x1_label)
+    ax_data.set_ylabel(x2_label)
+    ax_data.set_title(y_label)
+
+
+    #leyendas
+    model = patches.Patch(color='red', label='Modelo: w=%s, b=%.2f' % (str(w),b))
+    label='$E = $  %.2f' % (error)
+    error_patch = patches.Patch(color='black', label=label)
+    handles=[model,error_patch]
+    
+    ax_data.legend(handles=handles,fontsize=8)
+
+        

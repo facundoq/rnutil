@@ -1,14 +1,14 @@
 import numpy as np
 
-def logistic(x):
+def sigmoid(x):
     return 1/(1+np.exp(-x))
 def linear(x,m,b):
     return x*m+b
 
-def apply_model(x,m,b):
-    return logistic(linear(x,m,b))
+def forward(x,m,b):
+    return sigmoid(linear(x,m,b))
 
-def evaluate_predictions(y,yhat):
+def mean_binary_cross_entropy(y,yhat):
     eps = np.finfo(float).eps
     n=len(y)
     errors=np.zeros(n)
@@ -20,8 +20,8 @@ def evaluate_predictions(y,yhat):
             
     # implementación vectorial
     #errors=y* (-log(yhat)) +(1-y)* (-log(-yhat))
-    return errors.sum()
+    return errors.mean()
     
 def evaluate_model(x,y,m,b):
-    yhat=apply_model(x,m,b)
-    return evaluate_predictions(y,yhat)
+    yhat=forward(x,m,b)
+    return mean_binary_cross_entropy(y,yhat)
