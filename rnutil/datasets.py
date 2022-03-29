@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 from skimage import io
 
+from .. import rnutil 
+
 _ROOT = os.path.abspath(os.path.dirname(__file__))
 
 def data_path(local=False):
@@ -13,7 +15,7 @@ def data_path(local=False):
         return path
     else:
         path = Path(_ROOT)/'data'
-        print(f"Loading file from package {__name__} ({path})...")
+        print(f"Loading file from package {rnutil.__name__} ({path})...")
         return path
     
 
