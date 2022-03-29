@@ -1,2 +1,2 @@
 # redes-neuronales-util
-Datos y funciones para el curso de Redes Neuronales
+Datos y funciones utiles para entrenar y visualizar Redes Neuronales
