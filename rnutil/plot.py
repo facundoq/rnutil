@@ -1,9 +1,12 @@
 import matplotlib.pyplot as plt
+plt.style.use('ggplot')
+
+
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 import matplotlib.patches as patches
 
-
+from .logistic1d import logistic
 
 def plot_regresion_lineal_univariada(w,b,x,y,x_label,y_label,title=""):
     # genero una ventana de dibujo con una sola zona de dibujo (1,1)
@@ -73,15 +76,56 @@ def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
 
 
 
+def plot_regresion_logistica2D(w,b, x, y,error,x1_label,x2_label,y_label,title="",detail=0.1,padding=10):
+    assert x.shape[1]==2,f"x debe tener solo dos variables de entrada (tiene {x.shape[1]})"
+    # nueva figura
+    figure=plt.figure(figsize=(10,5),dpi=100)
+    ax_data=figure.add_subplot(1,1,1)
+
+    
+    # gráfico con la predicción aprendida
+    x_min, x_max = x[:, 0].min() - padding, x[:, 0].max() + padding
+    y_min, y_max = x[:, 1].min() - padding, x[:, 1].max() + padding
+    xx, yy = np.meshgrid(np.arange(x_min, x_max, detail),
+                         np.arange(y_min, y_max, detail))
+
+    Z = np.c_[xx.ravel(), yy.ravel()]
+    Z = logistic(Z.dot(w)+b)
+
+    titulo = f"{title}: regiones de cada clase"
+    Z = Z.reshape(xx.shape)
+    surf1 = ax_data.contourf(xx, yy, Z, alpha=0.9,cmap='coolwarm')  # ,  cmap='RdBu')
+    plt.colorbar(surf1, shrink=0.8, aspect=5,ax=ax_data)
+
+    plt.title(titulo)
+
+    # puntos con las clases
+    ax_data.scatter(x[y==1,0],x[y==1,1],color="red")
+    ax_data.scatter(x[y==0,0],x[y==0,1],color="blue")
+
+    # etiquetas
+    ax_data.set_xlabel(x1_label)
+    ax_data.set_ylabel(x2_label)
+    ax_data.set_title(y_label)
+
+
+    #leyendas
+    model = patches.Patch(color='red', label='Modelo: w=%s, b=%.2f' % (str(w),b))
+    label='$E = $  %.2f' % (error)
+    error_patch = patches.Patch(color='black', label=label)
+    handles=[model,error_patch]
+    
+    ax_data.legend(handles=handles,fontsize=8)
+
 # imprime los puntos para un dataset bidimensional junto con la frontera de decisión del modelo
-def plot_regresion_logistica2D(modelo, x, y,title="",detail=0.1):
+def plot_fronteras_keras(modelo, x, y,title="",detail=0.1,padding=10):
 
     assert x.shape[1]==2,f"x debe tener solo dos variables de entrada (tiene {x.shape[1]})"
     # nueva figura
     plt.figure()
     # gráfico con la predicción aprendida
-    x_min, x_max = x[:, 0].min() - 1, x[:, 0].max() + 1
-    y_min, y_max = x[:, 1].min() - 1, x[:, 1].max() + 1
+    x_min, x_max = x[:, 0].min() - padding, x[:, 0].max() + padding
+    y_min, y_max = x[:, 1].min() - padding, x[:, 1].max() + padding
     xx, yy = np.meshgrid(np.arange(x_min, x_max, detail),
                          np.arange(y_min, y_max, detail))
 
@@ -91,12 +135,14 @@ def plot_regresion_logistica2D(modelo, x, y,title="",detail=0.1):
     Z = Z.argmax(axis=1)  # para Keras
     titulo = f"{title}: regiones de cada clase"
     Z = Z.reshape(xx.shape)
-    plt.contourf(xx, yy, Z, alpha=0.3)  # ,  cmap='RdBu')
+    plt.contourf(xx, yy, Z, alpha=0.7,cmap='coolwarm')  # ,  cmap='RdBu')
     plt.colorbar()
     plt.title(titulo)
 
     # puntos con las clases
     plt.scatter(x[:, 0], x[:, 1], c=y)
+    plt.show()
+    
 
 
 def plot_loss(loss_history):
@@ -108,13 +154,18 @@ def plot_loss(loss_history):
     
 
 def plot_loss_accuracy(loss_history,acc_history):
-    # TODO use 2 subfigures
-    plt.figure()
+    fig, (ax1, ax2) = plt.subplots(1, 2)
+
     epochs = np.arange(1,len(loss_history)+1)
-    plt.plot(epochs,loss_history)
-    plt.plot(epochs,acc_history)
-    plt.xlabel("Época")
-    plt.ylabel("Error/accuracy")
+    ax1.plot(epochs,loss_history)
+    ax2.plot(epochs,acc_history,c="orange")
+    ax1.set_xlabel("Época")
+    ax1.set_ylabel("Error")
+    ax2.set_xlabel("Época")
+    ax2.set_ylabel("Accuracy")
+    ax2.set_ylim([0,1])
+    plt.tight_layout()
 
-
-
+def plot_loss_accuracy_keras(history):
+    plot_loss_accuracy(history.history["loss"],history.history["accuracy"])
+    

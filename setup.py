@@ -12,8 +12,8 @@ import io
 from pathlib import Path
 
 # Package meta-data.
-NAME = 'redes-neuronales-util'
-URL="https://github.com/facundoq/redes-neuronales-util"
+NAME = 'rnutil'
+URL="https://github.com/facundoq/rnutil"
 
 
 here = os.path.abspath(os.path.dirname(__file__))
