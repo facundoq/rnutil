@@ -108,9 +108,13 @@ def plot_loss(loss_history):
     
 
 def plot_loss_accuracy(loss_history,acc_history):
+    # TODO use 2 subfigures
     plt.figure()
     epochs = np.arange(1,len(loss_history)+1)
     plt.plot(epochs,loss_history)
     plt.plot(epochs,acc_history)
     plt.xlabel("Época")
     plt.ylabel("Error/accuracy")
+
+
+

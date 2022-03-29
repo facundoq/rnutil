@@ -13,7 +13,7 @@ def data_path(local=False):
         return path
     else:
         path = Path(_ROOT)/'data'
-        print(f"Loading file from package rnuba ({path})...")
+        print(f"Loading file from package {__name__} ({path})...")
         return path
     
 

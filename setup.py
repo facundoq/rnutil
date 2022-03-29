@@ -85,7 +85,7 @@ setup(
         "Documentation": URL,
         "Source Code": URL,
     },
-    packages=find_packages(exclude=('testing','samples')),
+    packages=find_packages(exclude=('testing','samples','test')),
     # If your package is a single module, use this instead of 'packages':
     # py_modules=['mypackage'],
 
