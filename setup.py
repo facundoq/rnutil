@@ -93,7 +93,7 @@ setup(
     #     'console_scripts': ['mycli=mymodule:cli'],
     # },
     
-    install_requires= [ 'numpy', 'matplotlib','pathlib','pandas','scikit-image'],
+    install_requires= [ 'numpy', 'matplotlib','pandas','scikit-image'],
     include_package_data=True,
     license='GNU Affero General Public License v3 or later (AGPLv3+)',
     classifiers=[
