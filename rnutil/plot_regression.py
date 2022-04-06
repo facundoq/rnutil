@@ -36,6 +36,8 @@ def mean_error(w,b,x1,x2,y):
 
 def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
     # me aseguro que w tenga solo 2 elementos
+    if isinstance(w,list):
+        w = np.array(w)
     if isinstance(w,np.ndarray):
         w = w.squeeze()
     assert w.shape[0]==2
