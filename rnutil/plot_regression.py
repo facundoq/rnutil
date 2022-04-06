@@ -21,7 +21,8 @@ def plot_regresion_lineal_univariada(w,b,x,y,x_label,y_label,title="",x_pad=10):
 
 
 def add_legends(ax_data,mx,my,b,mean_error):
-    model = patches.Patch(color='red', label='Modelo: y=x1*{:.2f}+x2*{:.2f}+{:.2f}'.format(mx,my,b))
+    
+    model = patches.Patch(color='red', label=f"Modelo: y=x1*{mx:.2f}+x2*{my:.2f}+{b:.2f}")
     data = patches.Patch(color='blue', label='Datos')
     handles=[model,data]
     label='$E = \\frac{1}{n}  \sum_i^n E_i = $  %.2f' % (mean_error)
@@ -34,8 +35,14 @@ def mean_error(w,b,x1,x2,y):
     return np.mean( (y_pred-y)**2)
 
 def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
+    # me aseguro que w tenga solo 2 elementos
+    w = w.squeeze()
+    assert w.shape[0]==2
+    b = b.squeeze()
+    
     # genero una ventana de dibujo con una sola zona de dibujo (1,1)
     # que permita graficos en 3D
+    
     figure = plt.figure(figsize=(10, 10), dpi=100)
     ax_data = figure.add_subplot(1, 1, 1, projection='3d')
 
@@ -65,6 +72,7 @@ def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
     ax_data.set_zlabel(y_label)#"y (Nota)")
     # Establezco el titulo del grafico
     # ax_data.set_title(title)
+    
     add_legends(ax_data,w[0],w[1],b,mean_error(w,b,x1,x2,y))
 
         
