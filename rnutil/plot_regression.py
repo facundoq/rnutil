@@ -38,7 +38,8 @@ def plot_regresion_lineal(w,b,x1,x2,y,x1_label,x2_label,y_label,title=""):
     # me aseguro que w tenga solo 2 elementos
     w = w.squeeze()
     assert w.shape[0]==2
-    b = b.squeeze()
+    if isinstance(b,np.ndarray):
+        b = b.squeeze()
     
     # genero una ventana de dibujo con una sola zona de dibujo (1,1)
     # que permita graficos en 3D
