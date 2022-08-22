@@ -73,7 +73,7 @@ class UploadCommand(Command):
 setup(
     name=NAME,
     version=VERSION,
-    description='Utility functions for the Neural Networks course for the University of Buenos Aires (UBA)',
+    description='Utility functions for Neural Networks educational courses',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='Facundo Quiroga',
